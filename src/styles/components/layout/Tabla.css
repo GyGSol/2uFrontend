@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+th {
+    border: 1px solid rgb(233, 15, 215);
+}
+
+td {
+    border: 1px solid rgb(233, 15, 215);
+}
