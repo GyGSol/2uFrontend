@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -8,12 +9,23 @@ import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 
-function contact() {
+function Contact() {
+
+  const [contacto, setContacto] = useState({});
+
+  useEffect(() => {
+    const cargarFoto = async () => {
+      const response = await axios.get("http://localhost:3030/api/contactos");
+      setContacto(response.data);
+    };
+    cargarFoto();
+  }, []);
+
   return (
     <Container className="mt-4">
       <Row>
         <Col lg={6} md={6}>
-          <h2>Contact:</h2>
+          <h2>Contact: </h2><h5>{contacto.texto1}</h5>
           <Form className="mt-4">
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Your Name</Form.Label>
@@ -61,11 +73,11 @@ function contact() {
           </Form>
         </Col>
         <Col lg={6} md={6} className="d-flex flex-row-reverse">
-          <Image src="es-vedra-ibiza-Contact.png" rounded />
+          <Image src={contacto.imagen} rounded />
         </Col>
       </Row>
     </Container>
   );
 }
 
-export default contact;
+export default Contact;
