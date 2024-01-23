@@ -7,7 +7,6 @@ import Tabla from "./Tabla";
 // nombre, dormitorios, linkpdf, linkvideo, linkimagen, banos, vista, area
 
 const Datos = (props) => {
-
   const [casas,setCasas] = useState([]);
 
   useEffect( () =>{
@@ -17,7 +16,7 @@ const Datos = (props) => {
     }
     cargarCasas();
   } ,[])
-  console.log("precios",casas);
+
   return (
     <Container>
       <h2>Properties:</h2>
