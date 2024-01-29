@@ -8,10 +8,38 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Spinner from "react-bootstrap/Spinner";
 
 function Contact() {
-
+  const initialForm = {
+    nombre: "",
+    email: "",
+    mensaje: "",
+  };
+  const [sending, setSending] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [formData, setFormData] = useState(initialForm);
   const [contacto, setContacto] = useState({});
+
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData((oldData) => ({
+      ...oldData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMsg("");
+    setSending(true);
+    const response = await axios.post("http://localhost:3030/api/contacto",formData);
+    setSending(false);
+    setMsg(response.data.message);
+    if (response.data.error === false) {
+      setFormData(initialForm);
+    }
+  };
 
   useEffect(() => {
     const cargarFoto = async () => {
@@ -24,18 +52,31 @@ function Contact() {
   return (
     <Container className="mt-4">
       <Row>
-        <Col lg={6} md={6}>
-          <h2>Contact: </h2><h5>{contacto.texto1}</h5>
-          <Form className="mt-4">
+        <Col lg={5} md={5} sm={12}>
+          <h2>Contact: </h2>
+          <h5>{contacto.texto1}</h5>
+          <Form className="mt-4" onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Your Name</Form.Label>
-              <Form.Control placeholder="Enter Name" />
+              <Form.Control
+                name="nombre"
+                onChange={handleChange}
+                type="text"
+                value={formData.nombre}
+                placeholder="Enter Name"
+              />
             </Form.Group>
 
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridEmail">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control
+                  name="email"
+                  onChange={handleChange}
+                  value={formData.email}
+                  type="email"
+                  placeholder="Enter email"
+                />
               </Form.Group>
             </Row>
 
@@ -45,7 +86,10 @@ function Contact() {
               label="Comments"
             >
               <Form.Control
+                name="mensaje"
                 as="textarea"
+                onChange={handleChange}
+                value={formData.mensaje}
                 placeholder="Leave a comment here"
                 style={{ height: "100px" }}
               />
@@ -60,7 +104,7 @@ function Contact() {
             </Row>
             <Row className="mb-4">
               <Button
-                href="https://wa.me/+34687261275?text=I'm%20interested%20about%20a%20listing%20of%20properties"
+                href="https://wa.me/+5491123652203?text=I'm%20interested%20about%20a%20listing%20of%20properties"
                 variant="outline-success"
               >
                 <img
@@ -70,9 +114,16 @@ function Contact() {
                 Chat on WhatsApp
               </Button>
             </Row>
+            {sending ? 
+            (<span>
+              <Spinner animation="border" role="status" variant="info">
+                <span className="visually-hidden">Sending...</span>
+              </Spinner><h5> Sending...</h5></span>
+            ): null}
+            {msg ? <h5>{msg}</h5> : null}
           </Form>
         </Col>
-        <Col lg={6} md={6} className="d-flex flex-row-reverse">
+        <Col lg={7} md={7} sm={12} className="d-flex flex-row-reverse">
           <Image src={contacto.imagen} rounded />
         </Col>
       </Row>

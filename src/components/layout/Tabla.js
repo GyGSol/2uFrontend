@@ -6,7 +6,7 @@ const Tabla = (props) => {
     <>
       <tr>
         <td>{mes}</td>
-        <td>{precio} € / week</td>
+        <td style={{textAlign:"right"}}>{precio} € / week</td>
       </tr>
     </>
   );

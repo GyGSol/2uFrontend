@@ -1,7 +1,8 @@
 import Header from '../components/layout/Header';
 import Villas from '../components/layout/Villas';
 
-function villas() {
+const Propiedades = () => {
+
   return (
     <div>
       <Header></Header>
@@ -10,4 +11,4 @@ function villas() {
   );
 }
 
-export default villas;
+export default Propiedades;
