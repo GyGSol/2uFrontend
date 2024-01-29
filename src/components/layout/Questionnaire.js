@@ -10,9 +10,9 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 
 function Questionnaire() {
-  
   const initialForm = {
     area: "",
     dormitorios: "",
@@ -37,7 +37,6 @@ function Questionnaire() {
   const [formData, setFormData] = useState(initialForm);
 
   const formulario = useRef(null);
-  let parametros = [];
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -53,20 +52,32 @@ function Questionnaire() {
     setMostrar(true);
     let response = await axios.get("http://localhost:3030/api/casas");
     let res = response.data;
+    let parametros = formData;
 
-    if(parametros.vista !== 'Choose...'){
-       res = res.filter((item) => item.vista === parametros.vista);
+    console.log("parametros", parametros);
+    if (parametros.vista !== "") {
+      res = res.filter((item) => item.vista === parametros.vista);
     }
-    if(parametros.area !== 'Choose...'){
+    if (parametros.area !== "") {
       res = res.filter((item) => item.area === parametros.area);
     }
-    if(parametros.dormitorios !== ''){
-      res = res.filter((item) =>item.dormitorios >= parametros.dormitorios);
+    if (parametros.dormitorios !== "") {
+      res = res.filter(
+        (item) => item.dormitorios >= Number(parametros.dormitorios)
+      );
     }
-    if(parametros.pax !== ''){
-      res = res.filter((item) =>item.pax >= parametros.pax);
+    if (parametros.pax !== "") {
+      res = res.filter((item) => item.pax >= Number(parametros.pax));
     }
-    const responseSerch = await axios.post("http://localhost:3030/api/search",formData);
+    const responseSerchFrom = await axios.post(
+      "http://localhost:3030/api/searchFrom",
+      formData
+    );
+    const responseSerch = await axios.post(
+      "http://localhost:3030/api/search",
+      res
+    );
+    console.log("formData fil", res);
     setSending(false);
     setMsg(responseSerch.data.message);
     setBusqueda(res);
@@ -189,8 +200,6 @@ function Questionnaire() {
               })}
             </Form.Select>
           </Form.Group>
-        </Row>
-        <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridGuests">
             <Form.Label>Guests</Form.Label>
             <Form.Control
@@ -201,33 +210,17 @@ function Questionnaire() {
               onChange={handleChange}
             />
           </Form.Group>
-
+        </Row>
+        <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridBudget">
-            <Form.Label>Approximate budget</Form.Label>
+            <Form.Label>Approximate budget / Week</Form.Label>
             <Form.Control
               name="importe"
               value={formData.importe}
-              type="number"
+              type="text"
               placeholder="Enter Approximate budget in euros"
               onChange={handleChange}
             />
-          </Form.Group>
-          <Form.Group as={Col} controlId="formGridNationality">
-            <Form.Label>Nationality</Form.Label>
-            <Form.Select
-              name="nacionalidad"
-              defaultValue="Choose..."
-              onChange={handleChange}
-            >
-              <option>Choose...</option>
-              {paises.map((pais, index) => {
-                return (
-                  <option key={index} value={pais.id}>
-                    {pais.nombre}
-                  </option>
-                );
-              })}
-            </Form.Select>
           </Form.Group>
         </Row>
         <Form.Group className="mb-3" controlId="formGridSpecialRequests">
@@ -241,11 +234,17 @@ function Questionnaire() {
           />
         </Form.Group>
         <Button variant="info" type="submit">
-          Search
+          Search and Send
         </Button>
       </Form>
       <div className="mt-3">
-        {mostrar ? <h2 className="mb-2">Searched properties:</h2> : ""}
+        {mostrar ? (
+          <div>
+            <h2 className="mb-2">Searched properties: </h2>
+          </div>
+        ) : (
+          ""
+        )}
         {mostrar ? (
           busqueda.map((item, index) => (
             <ItemCasa
