@@ -50,7 +50,7 @@ function Questionnaire() {
     e.preventDefault();
 
     setMostrar(true);
-    let response = await axios.get("http://localhost:3030/api/casas");
+    let response = await axios.get('${process.env.REACT_APP_API_URL}/api/casas');
     let res = response.data;
     let parametros = formData;
 
@@ -70,11 +70,11 @@ function Questionnaire() {
       res = res.filter((item) => item.pax >= Number(parametros.pax));
     }
     const responseSerchFrom = await axios.post(
-      "http://localhost:3030/api/searchFrom",
+      '${process.env.REACT_APP_API_URL}/api/searchFrom',
       formData
     );
     const responseSerch = await axios.post(
-      "http://localhost:3030/api/search",
+      '${process.env.REACT_APP_API_URL}/api/search',
       res
     );
     console.log("formData fil", res);
@@ -86,7 +86,7 @@ function Questionnaire() {
   useEffect(() => {
     const cargarAreas = async () => {
       setLoading(true);
-      const response = await axios.get("http://localhost:3030/api/areas");
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/api/areas');
       setAreas(response.data);
       setLoading(false);
     };
@@ -96,7 +96,7 @@ function Questionnaire() {
   useEffect(() => {
     const cargarVistas = async () => {
       setLoading(true);
-      const response = await axios.get("http://localhost:3030/api/vistas");
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/api/vistas');
       setVistas(response.data);
       setLoading(false);
     };
@@ -106,7 +106,7 @@ function Questionnaire() {
   useEffect(() => {
     const cargarPaises = async () => {
       setLoading(true);
-      const response = await axios.get("http://localhost:3030/api/paises");
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/api/paises');
       setPaises(response.data);
       setLoading(false);
     };

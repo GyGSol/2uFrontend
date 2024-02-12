@@ -14,7 +14,7 @@ const Datos = (props) => {
   useEffect(() => {
     const cargarCasas = async () => {
       setLoading(true);
-      const response = await axios.get("http://localhost:3030/api/casas");
+      const response = await axios.get(process.env.REACT_APP_API_URL+"/api/casas");
       setCasas(response.data);
       setLoading(false);
     };

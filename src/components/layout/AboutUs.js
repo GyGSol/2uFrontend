@@ -12,7 +12,7 @@ const AboutUs = (props) => {
 
   useEffect(() => {
     const cargarTextos = async () => {
-      const response = await axios.get("http://localhost:3030/api/nosotros");
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/api/nosotros');
       setNosotros(response.data);
     };
     cargarTextos();
@@ -20,7 +20,7 @@ const AboutUs = (props) => {
 
   useEffect(() => {
     const cargarPersonal = async () => {
-      const response = await axios.get("http://localhost:3030/api/personal");
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/api/personal');
       setPersonal(response.data);
     };
     cargarPersonal();
