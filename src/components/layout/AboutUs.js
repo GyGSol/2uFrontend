@@ -9,7 +9,7 @@ import ItemPersonal from "./ItemPersonal";
 const AboutUs = (props) => {
   const [nosotros, setNosotros] = useState({});
   const [personal, setPersonal] = useState([]);
-
+  console.log("process",process.env.REACT_APP_API_URL);
   useEffect(() => {
     const cargarTextos = async () => {
       const response = await axios.get('${process.env.REACT_APP_API_URL}/api/nosotros');
@@ -17,7 +17,7 @@ const AboutUs = (props) => {
     };
     cargarTextos();
   }, []);
-
+  
   useEffect(() => {
     const cargarPersonal = async () => {
       const response = await axios.get('${process.env.REACT_APP_API_URL}/api/personal');
