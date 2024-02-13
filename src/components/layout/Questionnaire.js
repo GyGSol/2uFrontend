@@ -28,7 +28,6 @@ function Questionnaire() {
   const [mostrar, setMostrar] = useState(false);
   const [areas, setAreas] = useState([]);
   const [vistas, setVistas] = useState([]);
-  const [paises, setPaises] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
 
   const [sending, setSending] = useState(false);
@@ -44,13 +43,13 @@ function Questionnaire() {
       [name]: value,
     }));
   };
-  let res ;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setMostrar(true);
     let response = await axios.get(process.env.REACT_APP_API_URL+'/api/casas');
-    res = response.data;
+    let res = response.data;
     let parametros = formData;
 
     console.log("parametros", parametros);
@@ -72,20 +71,15 @@ function Questionnaire() {
       process.env.REACT_APP_API_URL+'/api/searchFrom',
       formData
     );
-    
-    console.log("formData fil", res);
-    setBusqueda(res);
-  };
-  
-  const handleSend= async (e) => {
-    setSending(false);
     const responseSerch = await axios.post(
       process.env.REACT_APP_API_URL+'/api/search',
       res
     );
-    setSending(true);
+    console.log("formData fil", responseSerchFrom);
+    setSending(false);
     setMsg(responseSerch.data.message);
-  }  
+    setBusqueda(res);
+  };
 
   useEffect(() => {
     const cargarAreas = async () => {
@@ -105,16 +99,6 @@ function Questionnaire() {
       setLoading(false);
     };
     cargarVistas();
-  }, []);
-
-  useEffect(() => {
-    const cargarPaises = async () => {
-      setLoading(true);
-      const response = await axios.get(process.env.REACT_APP_API_URL+'/api/paises');
-      setPaises(response.data);
-      setLoading(false);
-    };
-    cargarPaises();
   }, []);
 
   useEffect(() => {
@@ -270,9 +254,6 @@ function Questionnaire() {
         ) : (
           <p></p>
         )}
-        <Button variant="info" onClick={handleSend}>
-          Search and Send
-        </Button>
       </div>
     </Container>
   );
