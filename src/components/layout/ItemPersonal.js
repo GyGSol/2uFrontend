@@ -6,8 +6,8 @@ function PersonalItem(props) {
   const { nombre, descripcion, imagen } = props;
   
   return (
-    <Col lg={3} md={3} sm={12}>
-      <Card style={{ width: "12rem" }}>
+    <Col lg={4} md={4} sm={12}>
+      <Card style={{ width: "10rem" }}>
         <Card.Img variant="top" src={imagen} fluid/>
         <Card.Body>
           <Card.Header>{nombre}</Card.Header>
