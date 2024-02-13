@@ -10,7 +10,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import Spinner from "react-bootstrap/Spinner";
 
 function Questionnaire() {
   const initialForm = {
@@ -45,13 +44,13 @@ function Questionnaire() {
       [name]: value,
     }));
   };
-
+  let res ;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setMostrar(true);
     let response = await axios.get(process.env.REACT_APP_API_URL+'/api/casas');
-    let res = response.data;
+    res = response.data;
     let parametros = formData;
 
     console.log("parametros", parametros);
@@ -73,15 +72,20 @@ function Questionnaire() {
       process.env.REACT_APP_API_URL+'/api/searchFrom',
       formData
     );
+    
+    console.log("formData fil", res);
+    setBusqueda(res);
+  };
+  
+  const handleSend= async (e) => {
+    setSending(false);
     const responseSerch = await axios.post(
       process.env.REACT_APP_API_URL+'/api/search',
       res
     );
-    console.log("formData fil", res);
-    setSending(false);
+    setSending(true);
     setMsg(responseSerch.data.message);
-    setBusqueda(res);
-  };
+  }  
 
   useEffect(() => {
     const cargarAreas = async () => {
@@ -266,6 +270,9 @@ function Questionnaire() {
         ) : (
           <p></p>
         )}
+        <Button variant="info" onClick={handleSend}>
+          Search and Send
+        </Button>
       </div>
     </Container>
   );
