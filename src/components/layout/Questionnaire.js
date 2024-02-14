@@ -21,6 +21,7 @@ function Questionnaire() {
     importe: "",
     nacionalidad: "",
     nombreCliente: "",
+    email: "",
     pax: "",
     vista: "",
   };
@@ -195,6 +196,18 @@ function Questionnaire() {
               value={formData.pax}
               type="number"
               placeholder="Enter number of guests (man-woman-kids)"
+              onChange={handleChange}
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="email"
+              value={formData.email}
+              type="email"
+              placeholder="Enter your Email"
               onChange={handleChange}
             />
           </Form.Group>
