@@ -114,19 +114,19 @@ function Contact() {
                 Chat on WhatsApp
               </Button>
             </Row>
-            {sending ? 
-            (<span>
-              <Spinner animation="border" role="status" variant="info">
-                <span className="visually-hidden">Sending...</span>
-              </Spinner><h5> Sending...</h5></span>
-            ): null}
-            {msg ? <h5>{msg}</h5> : null}
           </Form>
         </Col>
         <Col lg={7} md={7} sm={12} className="d-flex flex-row-reverse">
           <Image src={contacto.imagen} rounded />
         </Col>
       </Row>
+      {sending ? (
+        <div>
+          <Spinner animation="border" role="status" variant="info" />
+          <span className="visually-hidden">Sending...</span>
+        </div>
+      ) : null}
+      {msg ? <h5>{msg}</h5> : null}
     </Container>
   );
 }

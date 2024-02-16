@@ -25,17 +25,16 @@ function Questionnaire() {
     pax: "",
     vista: "",
   };
-  const [loading, setLoading] = useState(false);
+
   const [mostrar, setMostrar] = useState(false);
   const [areas, setAreas] = useState([]);
   const [vistas, setVistas] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
-
-  const [sending, setSending] = useState(false);
   const [msg, setMsg] = useState("");
   const [formData, setFormData] = useState(initialForm);
 
   const formulario = useRef(null);
+  let res = null;
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -47,10 +46,10 @@ function Questionnaire() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setMostrar(true);
-    let response = await axios.get(process.env.REACT_APP_API_URL+'/api/casas');
-    let res = response.data;
+    let response = await axios.get(
+      process.env.REACT_APP_API_URL + "/api/casas"
+    );
+    res = response.data;
     let parametros = formData;
 
     console.log("parametros", parametros);
@@ -69,47 +68,47 @@ function Questionnaire() {
       res = res.filter((item) => item.pax >= Number(parametros.pax));
     }
     const responseSerchFrom = await axios.post(
-      process.env.REACT_APP_API_URL+'/api/searchFrom',
+      process.env.REACT_APP_API_URL + "/api/searchFrom",
       formData
     );
-    const responseSerch = await axios.post(
-      process.env.REACT_APP_API_URL+'/api/search',
-      res
-    );
-    console.log("formData fil", responseSerchFrom);
-    setSending(false);
-    setMsg(responseSerch.data.message);
+    console.log(responseSerchFrom.data.message);
+
+    if (res.length > 0) {
+      setMostrar(true);
+    } else {
+      setMostrar(false);
+    }
     setBusqueda(res);
+  };
+
+  const SendSubmit = async (e) => {
+    const responseSerch = await axios.post(
+      process.env.REACT_APP_API_URL + "/api/search",
+      busqueda
+    );
+    setMsg(responseSerch.data.message);
   };
 
   useEffect(() => {
     const cargarAreas = async () => {
-      setLoading(true);
-      const response = await axios.get(process.env.REACT_APP_API_URL+'/api/areas');
+      const response = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/areas"
+      );
       setAreas(response.data);
-      setLoading(false);
     };
     cargarAreas();
   }, []);
 
   useEffect(() => {
     const cargarVistas = async () => {
-      setLoading(true);
-      const response = await axios.get(process.env.REACT_APP_API_URL+'/api/vistas');
+      const response = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/vistas"
+      );
       setVistas(response.data);
-      setLoading(false);
     };
     cargarVistas();
   }, []);
 
-  useEffect(() => {
-    const cargarBusqueda = async () => {
-      setLoading(true);
-
-      setLoading(false);
-    };
-    cargarBusqueda();
-  }, []);
   return (
     <Container className="mt-2">
       <h3>Property Search</h3>
@@ -234,18 +233,23 @@ function Questionnaire() {
             onChange={handleChange}
           />
         </Form.Group>
-        <Button variant="info" type="submit">
-          Search and Send
-        </Button>
+          <Button variant="info" type="submit" size="lg">
+            Search Properties
+          </Button>    
+          
       </Form>
       <div className="mt-3">
         {mostrar ? (
           <div>
-            <h2 className="mb-2">Searched properties: </h2>
+            <h2 className="mb-2">Searched properties: {mostrar ? (
+            <Button variant="outline-warning" onClick={SendSubmit} size="lg">
+              Send Email
+            </Button>
+          ) : null}
+          {msg ? <h5>{msg}</h5> : null}
+            </h2>
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
         {mostrar ? (
           busqueda.map((item, index) => (
             <ItemCasa
@@ -265,7 +269,7 @@ function Questionnaire() {
             />
           ))
         ) : (
-          <p></p>
+          <h4>No properties searched...</h4>
         )}
       </div>
     </Container>
