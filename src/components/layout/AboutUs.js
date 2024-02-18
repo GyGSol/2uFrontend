@@ -57,7 +57,7 @@ const AboutUs = (props) => {
         </Col>
         <Col lg={4} md={4} sm={12}>
           <div className="d-flex flex-row-reverse">
-            <Image src={nosotros.imagen} rounded></Image>
+            <Image className="d-none d-lg-block" src={nosotros.imagen} rounded></Image>
           </div>
         </Col>
       </Row>

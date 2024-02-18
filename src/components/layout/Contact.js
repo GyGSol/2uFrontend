@@ -59,6 +59,7 @@ function Contact() {
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Your Name</Form.Label>
               <Form.Control
+                required
                 name="nombre"
                 onChange={handleChange}
                 type="text"
@@ -71,6 +72,7 @@ function Contact() {
               <Form.Group as={Col} controlId="formGridEmail">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
+                  required
                   name="email"
                   onChange={handleChange}
                   value={formData.email}
@@ -86,6 +88,7 @@ function Contact() {
               label="Comments"
             >
               <Form.Control
+                required
                 name="mensaje"
                 as="textarea"
                 onChange={handleChange}
@@ -117,7 +120,7 @@ function Contact() {
           </Form>
         </Col>
         <Col lg={7} md={7} sm={12} className="d-flex flex-row-reverse">
-          <Image src={contacto.imagen} rounded />
+          <Image className="d-none d-lg-block" src={contacto.imagen} rounded />
         </Col>
       </Row>
       {sending ? (

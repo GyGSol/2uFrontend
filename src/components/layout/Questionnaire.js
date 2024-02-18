@@ -117,6 +117,7 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridName">
             <Form.Label>Client Name</Form.Label>
             <Form.Control
+              required
               name="nombreCliente"
               value={formData.nombreCliente}
               onChange={handleChange}
@@ -127,6 +128,7 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridArrival">
             <Form.Label>Arrival day</Form.Label>
             <Form.Control
+              required
               name="fechaDesde"
               type="date"
               onChange={handleChange}
@@ -136,6 +138,7 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridDeparture">
             <Form.Label>Departure day</Form.Label>
             <Form.Control
+              required
               name="fechaHasta"
               value={formData.fechaHasta}
               type="date"
@@ -191,6 +194,7 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridGuests">
             <Form.Label>Guests</Form.Label>
             <Form.Control
+              required
               name="pax"
               value={formData.pax}
               type="number"
@@ -203,6 +207,7 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
+              required
               name="email"
               value={formData.email}
               type="email"
