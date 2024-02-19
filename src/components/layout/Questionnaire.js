@@ -157,7 +157,7 @@ function Questionnaire() {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridAddress1">
-            <Form.Label>Bedroom number</Form.Label>
+            <Form.Label>Bedrooms</Form.Label>
             <Form.Control
               name="dormitorios"
               value={formData.dormitorios}
@@ -167,7 +167,7 @@ function Questionnaire() {
             />
           </Form.Group>
           <Form.Group as={Col} controlId="formGridArea">
-            <Form.Label>Area of preference</Form.Label>
+            <Form.Label>Areas</Form.Label>
             <Form.Select
               name="area"
               defaultValue="Choose..."
@@ -249,7 +249,7 @@ function Questionnaire() {
           Search Properties
           {sending ? (
             <div>
-              <Spinner animation="border" role="status" variant="info" />
+              <Spinner animation="border" role="status" variant="warning" />
               <span className="visually-hidden">Searching...</span>
             </div>
           ) : null}
