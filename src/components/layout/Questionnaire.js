@@ -224,8 +224,6 @@ function Questionnaire() {
               onChange={handleChange}
             />
           </Form.Group>
-        </Row>
-        <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridBudget">
             <Form.Label>Approximate budget / Week</Form.Label>
             <Form.Control
