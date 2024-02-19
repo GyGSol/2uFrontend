@@ -225,7 +225,7 @@ function Questionnaire() {
             />
           </Form.Group>
           <Form.Group as={Col} controlId="formGridBudget">
-            <Form.Label>Approximate budget / Week</Form.Label>
+            <Form.Label>Approx budget / Week</Form.Label>
             <Form.Control
               name="importe"
               value={formData.importe}
