@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 
 function Questionnaire() {
   const initialForm = {
@@ -32,6 +33,8 @@ function Questionnaire() {
   const [busqueda, setBusqueda] = useState([]);
   const [msg, setMsg] = useState("");
   const [formData, setFormData] = useState(initialForm);
+  const [sending, setSending] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const formulario = useRef(null);
   let res = null;
@@ -46,6 +49,7 @@ function Questionnaire() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSending(true);
     let response = await axios.get(
       process.env.REACT_APP_API_URL + "/api/casas"
     );
@@ -75,18 +79,23 @@ function Questionnaire() {
 
     if (res.length > 0) {
       setMostrar(true);
+      setSending(false);
     } else {
       setMostrar(false);
+      setSending(false);
     }
     setBusqueda(res);
   };
 
   const SendSubmit = async (e) => {
+    setMsg("");
+    setSendingEmail(true);
     const responseSerch = await axios.post(
       process.env.REACT_APP_API_URL + "/api/search",
       busqueda
     );
     setMsg(responseSerch.data.message);
+    setSendingEmail(false);
   };
 
   useEffect(() => {
@@ -238,20 +247,41 @@ function Questionnaire() {
             onChange={handleChange}
           />
         </Form.Group>
-          <Button variant="info" type="submit" size="lg">
-            Search Properties
-          </Button>    
-          
+        <Button variant="info" type="submit" size="lg">
+          Search Properties
+          {sending ? (
+            <div>
+              <Spinner animation="border" role="status" variant="info" />
+              <span className="visually-hidden">Searching...</span>
+            </div>
+          ) : null}
+        </Button>
       </Form>
       <div className="mt-3">
         {mostrar ? (
           <div>
-            <h2 className="mb-2">Searched properties: {mostrar ? (
-            <Button variant="outline-warning" onClick={SendSubmit} size="lg">
-              Send Email
-            </Button>
-          ) : null}
-          {msg ? <h5>{msg}</h5> : null}
+            <h2 className="mb-2">
+              Searched properties:{" "}
+              {mostrar ? (
+                <Button
+                  variant="outline-warning"
+                  onClick={SendSubmit}
+                  size="lg"
+                >
+                  <Row><div>Send Email</div>
+                  {sendingEmail ? (
+                    <div>
+                      <Spinner
+                        animation="border"
+                        role="status"
+                        variant="info"
+                      />
+                      <span className="visually-hidden">Sending...</span>
+                    </div>
+                  ) : null}</Row>
+                </Button>
+              ) : null}
+              {msg ? <h5>{msg}</h5> : null}
             </h2>
           </div>
         ) : null}

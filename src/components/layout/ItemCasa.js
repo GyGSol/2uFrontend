@@ -52,7 +52,7 @@ const casasItem = (props) => {
           <h4 className="mt-2">Location : {area}</h4>
         </Col>
         <Col lg={5} m={5} sm={12}>
-          <Table>
+          <Table  style={{ fontSize: "12px" }}>
             <thead>
               <tr>
                 <th>Mounth</th>

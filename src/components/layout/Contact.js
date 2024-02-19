@@ -85,7 +85,7 @@ function Contact() {
             <FloatingLabel
               className="mb-4"
               controlId="floatingTextarea"
-              label="Comments"
+              label="Comments:"
             >
               <Form.Control
                 required
@@ -97,13 +97,13 @@ function Contact() {
                 style={{ height: "100px" }}
               />
             </FloatingLabel>
+            <Row className="mb-4">
+              <h5>Email: info@2uibiza.com</h5>
+            </Row>
             <Row>
               <Button className="mb-4" variant="primary" type="submit">
                 Contact Me
               </Button>
-            </Row>
-            <Row className="mb-4">
-              <h5>Email: info@2uibiza.com</h5>
             </Row>
             <Row className="mb-4">
               <Button
