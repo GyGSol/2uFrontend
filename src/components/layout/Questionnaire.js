@@ -57,10 +57,11 @@ function Questionnaire() {
     let parametros = formData;
 
     console.log("parametros", parametros);
-    if (parametros.vista !== "") {
+    console.log("res", res);
+    if (parametros.vista !== "" || parametros.vista !== "Choose...") {
       res = res.filter((item) => item.vista === parametros.vista);
     }
-    if (parametros.area !== "") {
+    if (parametros.area !== "" || parametros.area !== "Choose...") {
       res = res.filter((item) => item.area === parametros.area);
     }
     if (parametros.dormitorios !== "") {
