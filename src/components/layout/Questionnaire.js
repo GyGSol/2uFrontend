@@ -50,14 +50,15 @@ function Questionnaire() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
-    let response = await axios.get(
+    let casas = await axios.get(
       process.env.REACT_APP_API_URL + "/api/casas"
     );
-    res = response.data;
+    
+    res = casas.data;
     let parametros = formData;
 
     console.log("parametros", parametros);
-    console.log("res", res);
+
     if (parametros.vista !== "" || parametros.vista !== "Choose...") {
       res = res.filter((item) => item.vista === parametros.vista);
     }
