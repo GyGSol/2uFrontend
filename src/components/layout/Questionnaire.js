@@ -220,7 +220,6 @@ function Questionnaire() {
           <Form.Group as={Col} controlId="formGridGuests">
             <Form.Label>Guests</Form.Label>
             <Form.Control
-              required
               name="pax"
               value={formData.pax}
               type="number"
