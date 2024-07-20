@@ -62,7 +62,7 @@ function Questionnaire() {
     console.log("res.precio", res[0].precio[0].precio);
 
     res = res.filter((item) =>
-      item.precio.every((precio) => precio.precio <= Number(parametros.importe))
+      item.precio.every((precio) => precio.precio <= (Number(parametros.importe)+5000))
     );
     res = res.filter((item) =>
       item.ocupacion.every(
