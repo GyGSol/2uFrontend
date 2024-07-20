@@ -58,11 +58,26 @@ function Questionnaire() {
     let parametros = formData;
 
     console.log("parametros", parametros);
+    console.log("res sfiltrar", res);
+    console.log("res.precio", res[0].precio[0].precio);
 
-    if (parametros.vista !== "" || parametros.vista !== "Choose...") {
+    res = res.filter((item) =>
+      item.precio.every((precio) => precio.precio <= Number(parametros.importe))
+    );
+    res = res.filter((item) =>
+      item.ocupacion.every(
+        (ocupacion) =>
+          (parametros.fechaDesde < ocupacion.fechaDesde &&
+            parametros.fechaHasta < ocupacion.fechaHasta) ||
+          (parametros.fechaDesde > ocupacion.fechaHasta &&
+            parametros.fechaHasta > ocupacion.fechaHasta)
+      )
+    );
+    console.log("res despues filtrar", res);
+    if (parametros.vista !== "") {
       res = res.filter((item) => item.vista === parametros.vista);
     }
-    if (parametros.area !== "" || parametros.area !== "Choose...") {
+    if (parametros.area !== "") {
       res = res.filter((item) => item.area === parametros.area);
     }
     if (parametros.dormitorios !== "") {
@@ -230,6 +245,7 @@ function Questionnaire() {
             <Form.Label>Approx budget / Week</Form.Label>
             <Form.Control
               name="importe"
+              required
               value={formData.importe}
               type="text"
               placeholder="Enter Approximate budget in euros"
