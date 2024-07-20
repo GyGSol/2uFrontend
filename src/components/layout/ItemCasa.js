@@ -26,9 +26,9 @@ const casasItem = (props) => {
     <div className="mb-3" style={{ color: "purple" }}>
       <Row className="mb-2" >
         <Col lg={3} m={3} sm={12}>
-          <h2>
+          <h3>
             <Badge bg="info">{nombre}</Badge>
-          </h2>
+          </h3>
           <h4>{dormitorios} Bedrooms</h4>
           <h4>{pax} Guests</h4>
           <h5>Views: {vista}</h5>
